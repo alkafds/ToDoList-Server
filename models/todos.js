@@ -9,25 +9,40 @@ module.exports = (sequelize, DataTypes) => {
   Todos.init({
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
     },
     title: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        isEmpty : false
+        notEmpty: true,
       }
     },
     description: {
       type: DataTypes.STRING,
-      validate: {
-        isEmail : false
-      },
     },
     duedate: {
       type: DataTypes.DATE,
     },
     priority: {
       type: DataTypes.ENUM('low', 'medium','high'),
+      defaultValue: "low",
+    },
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false, // 'false' in the database will represent 'not finished'
+      get() {
+        return this.getDataValue('status') ? 'finished' : 'not finished';
+      },
+      set(value) {
+        // Map 'not finished' to 'false' and 'finished' to 'true'
+        if (value === 'finished' || value === true) {
+          this.setDataValue('status', true);
+        } else {
+          this.setDataValue('status', false);
+        }
+      },
     },
   }, {
     sequelize,

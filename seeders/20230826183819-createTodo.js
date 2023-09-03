@@ -5,11 +5,11 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Todos',[
       {
-        id: 1,
         title: "Cook rice",
         description: "cook rice for dinner",
         duedate: new Date(),
         priority: "low",
+        status: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },

@@ -44,32 +44,34 @@ class TodosController {
   };
 
   static updateTodos = async (req, res, next) => {
+    const { id } = req.params;
     try {
       const {
-        id,
         title,
         description,
         duedate,
+        priority,
         status
       } = req.body;
-      const Todo = await Todos.findByPk(id);
-
-      if (!Todo) {
+  
+      const todoToUpdate = await Todos.findByPk(id);
+  
+      if (!todoToUpdate) {
         throw { name: "ErrorNotFound" };
       }
-
-      const updatedTodos = await Todos.update({
-        id: id || Todos.id,
-        title: title || Todos.title,
-        description: description || Todos.description,
-        duedate: duedate || Todos.duedate,
-        status: status || Todos.status,
-        
+  
+      // Now, update the specific Todo record using the 'update' method
+      const updatedTodo = await todoToUpdate.update({
+        title: title || todoToUpdate.title,
+        description: description || todoToUpdate.description,
+        duedate: duedate || todoToUpdate.duedate,
+        priority: priority || todoToUpdate.priority,
+        status: status || todoToUpdate.status,
       });
-
+  
       res
         .status(200)
-        .json({ message: "Todos updated", updatedTodos });
+        .json({ message: "Todo updated", updatedTodo });
     } catch (err) {
       next(err);
     }
