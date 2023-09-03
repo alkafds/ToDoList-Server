@@ -26,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
     },
     priority: {
-      type: DataTypes.ENUM('low', 'medium','high'),
-      defaultValue: "low",
+      type: DataTypes.ENUM('low','medium','high'),
+      defaultValue:'medium',
     },
     status: {
       type: DataTypes.BOOLEAN,

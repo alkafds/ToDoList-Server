@@ -26,6 +26,7 @@ class TodosController {
       title,
       description,
       duedate,
+      priority,
       status,
     } = req.body;
 
@@ -35,6 +36,7 @@ class TodosController {
       title,
       description,
       duedate,
+      priority,
       status,
       });
       res.status(201).json({ message: "todos created", data });
@@ -79,7 +81,7 @@ class TodosController {
 
   static deleteTodos = async (req, res, next) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const Todo = await Todos.findByPk(id);
 
       if (!Todo) {
